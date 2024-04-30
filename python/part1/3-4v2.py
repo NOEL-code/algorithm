@@ -13,6 +13,7 @@ while True:
     
     result += 1
     n //= k
+    
 result += (n - 1)
     
 print(result)
