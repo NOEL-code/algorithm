@@ -1,0 +1,9 @@
+n = int(input())
+
+d = [0] * 30001
+
+d[1] = 1
+d[2] = 3
+
+for i in range(3, n):
+  d[i] 
