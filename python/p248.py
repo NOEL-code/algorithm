@@ -23,6 +23,7 @@ def dijkstra(start):
     
     if distance[now] < dist:
       continue
+    
     for i in graph[now]:
       cost = dist + i[1]
       
