@@ -40,6 +40,8 @@ def dijkstra(start):
     for j in graph[now]:
       cost = distance[now]+ j[1]
       
+      
+      
       if cost < distance[j[0]]:
         distance[j[0]] = cost
   
