@@ -1,29 +1,29 @@
-n, m = list(map(int, input().split(' ')))
+n, m = map(int, input().split())
+
 array = list(map(int, input().split()))
 
-array.sort()
-def binary_search(array, target, start, end):
+def binary_search_recursive(array, target, start, end):
   
-  result = 0
-  while(start <= end):
-    mid = (start + end) // 2 
-    sum = 0
+  if start > end:
+    return end 
+  mid = (start + end) // 2
+  
+  sum = 0
+  
+  for i in range(n):
+    if array[i] - mid > 0:
+      sum += (array[i] - mid) 
     
-    for i in array:
-      if i > mid:
-        sum += (i - mid)
+  if target == sum:
+    return mid
   
-    if sum == target:
-      return mid
-    elif sum > target:
-      start = mid + 1
-      result = mid
-    else:
-      end = mid - 1 
+  if target > sum:
+    return binary_search_recursive(array, target, start, mid - 1)
   
-  return result
+  if target < sum:
+    return binary_search_recursive(array, target, mid + 1, end)
+  
 
-result = binary_search(array, m, 0, max(array))
+array.sort()
 
-
-print(result)
+print(binary_search_recursive(array, m, 0, array[n-1]))

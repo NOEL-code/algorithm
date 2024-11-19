@@ -6,7 +6,7 @@ def binary_search_recursive(array, target, start, end):
   if array[mid] == target:
     return mid
   elif array[mid] > target:
-    return binary_search_recursive(array, start, mid -1)
+    return binary_search_recursive(array, start, mid - 1)
   elif array[mid] < target:
     return binary_search_recursive(array, mid + 1, end)
   
