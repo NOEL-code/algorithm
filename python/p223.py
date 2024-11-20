@@ -2,9 +2,9 @@ n = int(input())
 
 d = [0] * 30001
 
-d[1] = 1
-d[2] = 3
+data = list(map(int, input().split()))
 
-for i in range(3, n):
-  d[i] = (d[i-2] * 2 + d[i -1]) % 796796
-  
+for i in range(1, n):
+  d[i] = max(d[i -1], d[i - 2] + data[i])
+
+print(d[n - 1])
