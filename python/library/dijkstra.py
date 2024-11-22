@@ -1,3 +1,4 @@
+
 import sys
 
 input = sys.stdin.readline
@@ -8,7 +9,7 @@ n,m = map(int, input().split())
 
 start = int(input())
 
-graph = [[] for i in range(n+1)]
+graph = [[] for _ in range(n+1)]
 
 visited = [False] * (n+1)
 
