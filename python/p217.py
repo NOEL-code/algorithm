@@ -16,5 +16,5 @@ for i in range(2, x + 1):
     d[i] = min(d[i], d[i//2] + 1)
 
     
-print(d[x]) 
+print(d[x])
     

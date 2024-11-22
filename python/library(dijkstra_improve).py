@@ -7,7 +7,7 @@ n,m = map(int, input().split())
 
 start = int(input())
 
-graph = [[] for i in range(n+1)]
+graph = [[] for _ in range(n+1)]
 
 distance = [INF] * (n+1)
 

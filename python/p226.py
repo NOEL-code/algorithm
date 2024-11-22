@@ -2,29 +2,19 @@ n, m = map(int, input().split())
 
 data = []
 
-d = [0] * 10001
-
 for i in range(n):
   data.append(int(input()))
 
-data.sort()
+d = [10001] * m + 1
 
-for i in data:
-  d[i] = 1
+d[0] = 0
 
-for i in range(data[0], m + 1):
-    
-  for j in range(data[1], len(data)):
-    d[i] = min(d[i - data[j]] + 1, d[i - data[j - 1]] + 1)
-    print(i, d[i])
+for i in range(n):
+  for j in range(data[i], m + 1):
+    if d[j - data[i]] != 10001:
+      d[j] = min(d[j], d[j - data[i]] + 1)
 
-    
-if d[m] == 0:
+if d[m] == 10001:
   print('-1')
 else:
   print(d[m])
-
-  
-
-  
-  
