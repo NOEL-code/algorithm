@@ -75,7 +75,6 @@ def quick_sort(array, start, end):
   quick_sort(array, right + 1, end)
   
   print(quick_sort(array, 0, len(array) - 1))
-  
 
 def heapify(array, n, i):
     largest = i  # 현재 루트를 가장 큰 값으로 설정
@@ -106,8 +105,6 @@ def heap_sort(array):
     for i in range(n - 1, 0, -1):
         array[i], array[0] = array[0], array[i]  # 현재 루트(최대값)를 배열 끝으로 이동
         heapify(array, i, 0)  # 남은 배열에 대해 힙 속성 유지
-        
-        
         
 def heap_sort_heapq(array):
     heap = []
