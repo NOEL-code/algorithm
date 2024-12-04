@@ -119,3 +119,26 @@ def heap_sort_heapq(array):
         sorted_array.append(heapq.heappop(heap))
 
     return sorted_array
+
+def counting_sort(array):
+    if not array:  # 빈 배열 처리
+        return []
+
+    # 배열에서 최댓값과 최솟값 찾기
+    max_value = max(array)
+    min_value = min(array)
+    range_of_elements = max_value - min_value + 1
+
+    # 계수 배열 초기화
+    count = [0] * range_of_elements
+
+    # 각 요소의 개수 세기
+    for num in array:
+        count[num - min_value] += 1
+
+    # 정렬된 배열 작성
+    sorted_array = []
+    for i, cnt in enumerate(count):
+        sorted_array.extend([i + min_value] * cnt)
+
+    return sorted_array
