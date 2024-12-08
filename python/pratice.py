@@ -1,10 +1,26 @@
 import sys
 input = sys.stdin.readline
 
-s = input().strip()
+n = int(input().strip())
 
-data = [0] * 26  # 알파벳 26자에 대한 배열 생성
+d = [0] * 41
+zero = [0] * 41
+one = [0] * 41
 
-for char in s:
-    if 'a' <= char <= 'z':  # 소문자 알파벳만 처리
-        data[ord(char) - 97] += 1
+# 초기값 설정
+d[0], d[1] = 0, 1
+zero[0], one[0] = 1, 0
+zero[1], one[1] = 0, 1
+
+for i in range(2, 41):
+    d[i] = d[i - 1]+ d[i - 2]
+    zero[i] = zero[i - 1]+ zero[i - 2]
+    one[i] = one[i - 1]+ one[i - 2]
+    
+for i in range(n):
+    
+    x = int(input())
+    
+    print(zero[x], one[x])
+    
+    
