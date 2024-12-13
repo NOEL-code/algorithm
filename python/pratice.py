@@ -1,15 +1,16 @@
 import sys
 input = sys.stdin.readline
 
-s = input().strip()
+n, b = input().split()
 
-data = ["ABC", "DEF", "GHI", "JKL", "MNO", "PQRS", "TUV", "WXYZ"]
 result = 0
 
+for i in range(len(n)):
+    
+    if type(n[i]) == int:
+        result += int(n[i]) * pow(int(b), len(b) - i - 1)
+    else:
+        result += (ord(n[i]) - 55) * pow(int(b), len(n) - i - 1)
 
-for i in range(len(s)):
-    for j in data:
-        if s[i] in j:
-            result += data.index(j) + 3
 
 print(result)
