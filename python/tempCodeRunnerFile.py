@@ -1,9 +1,11 @@
-import sys
-input = sys.stdin.readline
+import numpy
 
-n = int(input())
+array = []
 
-for i in range(n):
-    s = input().strip()
+for i in range(5):
+    array.append(int(input()))
     
-    print(s[0], s[len(s) -1])
+array.sort()
+
+print(array[2])
+print(int(numpy.mean(array)))
