@@ -1,11 +1,9 @@
-import numpy
+n, k = map(int, input().split())
 
 array = []
-
-for i in range(5):
+for _ in range(n):
     array.append(int(input()))
-    
+
 array.sort()
 
-print(array[2])
-print(int(numpy.mean(array)))
+print(array[0])
