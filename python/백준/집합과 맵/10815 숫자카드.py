@@ -1,22 +1,22 @@
-# n = int(input())
+n = int(input())
 
-# cards = list(map(int, input().split(" ")))
+cards = list(map(int, input().split(" ")))
 
-# m = int(input())
+m = int(input())
 
-# checks = list(map(int, input().split()))
+checks = list(map(int, input().split()))
 
-# _dict = {}
+_dict = {}
 
-# for i in range(len(cards)):
-#   _dict[cards[i]] = 0 # 아무 값이나 매핑한 거임
+for i in range(len(cards)):
+  _dict[cards[i]] = 0 # 아무 값이나 매핑한 거임
   
 
-# for j in range(m):
-#   if checks[j] not in _dict:
-#     print(0, end=" ")
-#   else:
-#     print(1, end=' ')
+for j in range(m):
+  if checks[j] not in _dict:
+    print(0, end=" ")
+  else:
+    print(1, end=' ')
     
 
 
