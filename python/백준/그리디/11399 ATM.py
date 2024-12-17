@@ -4,7 +4,6 @@ queue = list(map(int, input().split()))
 
 queue.sort()
 
-
 result = []
 
 for i in range(N):
