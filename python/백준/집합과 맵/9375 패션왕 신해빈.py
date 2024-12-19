@@ -21,3 +21,6 @@ for _ in range(t):
     for k in wardrobe:
         count *= (len(wardrobe[k]) + 1)  # 각 종류별로 '선택 안함' 포함
     print(count - 1)  # 모든 의상을 입지 않는 경우 제외
+    
+    
+    
