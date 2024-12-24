@@ -11,4 +11,4 @@ for i in range(1, n):
         result[stack.pop()] = array[i]
     stack.append(i)
     
-print(*result)
+print(*result)z
