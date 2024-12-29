@@ -12,4 +12,5 @@ for i in range(1, n):
         
     stack.append(i)
     
+    
 print(*result)z
