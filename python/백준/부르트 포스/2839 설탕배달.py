@@ -1,25 +1,12 @@
-n = int(input())
+sugar = int(input())
 
-big5 = n // 5
-n = n % 5
-small3 = 0
-isPossible = True
-
-while(True):
-  small3 = n // 3
-  
-  if n % 3 != 0 and big5 == 0:
-    isPossible = False
-    break
-  
-  if n % 3 != 0:
-    big5 -= 1
-    n += 5
-    continue
-  
-  break
-
-if isPossible:
-  print(big5 + small3)
-else:
-  print(-1)
+bag = 0
+while sugar >= 0 :
+    if sugar % 5 == 0 :  # 5의 배수이면
+        bag += (sugar // 5)  # 5로 나눈 몫을 구해야 정수가 됨
+        print(bag)
+        break
+    sugar -= 3  
+    bag += 1  # 5의 배수가 될 때까지 설탕-3, 봉지+1
+else :
+    print(-1)

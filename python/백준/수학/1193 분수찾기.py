@@ -1,34 +1,17 @@
-import sys
-input = sys.stdin.readline
-
-x = int(input())
-
+num = int(input())
 line = 1
-num = 1
 
-while(x > num):
-  num += line
-  line += 1
-
-if x != num:
-  line -= 1
-  num = num - line
-
-i = x - num
-
+while num > line:
+    num -= line
+    line += 1
+    
+# 짝수일경우
 if line % 2 == 0:
-  mother = line
-  child = 1
-else:
-  child = line
-  mother = 1
+    a = num
+    b = line - num + 1
+# 홀수일경우
+elif line % 2 == 1:
+    a = line - num + 1
+    b = num
 
-for _ in range(i):
-  if line % 2 == 0:
-    mother -= 1
-    child += 1
-  else:
-    mother += 1
-    child -= 1
-
-print(f'{child}/{mother}')
+print(f'{a}/{b}')
