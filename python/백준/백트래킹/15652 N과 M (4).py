@@ -3,7 +3,7 @@ def back_tracking(arr, now_length, current_num):
         print(*arr)
         return
 
-    for idx in range(1, N + 1):
+    for idx in range(current_num, N + 1):
         arr.append(idx)
         back_tracking(arr, now_length + 1, idx)
         arr.pop()
