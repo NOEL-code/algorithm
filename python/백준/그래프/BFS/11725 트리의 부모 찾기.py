@@ -3,8 +3,8 @@ from collections import deque
 
 input = sys.stdin.readline
 n = int(input())
-graph = [[] for _ in range(n + 1)]
 
+graph = [[] for _ in range(n + 1)]
 for _ in range(n - 1):
     a, b = map(int, input().split())
     graph[a].append(b)
@@ -18,10 +18,10 @@ def bfs(start):
     while queue:
         node = queue.popleft()
     
-    for neighbor in graph[node]:
-        if parents[neighbor] == 0:
-            parents[neighbor] = node
-            queue.append(neighbor)
+        for neighbor in graph[node]:
+            if parents[neighbor] == 0:
+                parents[neighbor] = node
+                queue.append(neighbor)
             
 bfs(1)
 
