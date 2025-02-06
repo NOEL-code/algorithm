@@ -1,4 +1,9 @@
 from collections import deque
+import sys
+
+sys.setrecursionlimit(10**6)
+input = sys.stdin.readline
+
 N, M = map(int, input().split())
 
 graph = [[] for _ in range(N + 1)]
@@ -24,10 +29,9 @@ def bfs(start):
 
 count = 0
 for i in range(1, N + 1):
-    if visited[i]:
-        continue
-    bfs(i)
-    count += 1
+    if not visited[i]:
+        bfs(i)
+        count += 1
     
 print(count)
 
