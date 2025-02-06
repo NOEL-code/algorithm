@@ -8,6 +8,7 @@ def selection_sort(array):
     for j in range(i + 1, len(array)):
       if array[min_index] > array[j]:
         min_index = j
+        break
     array[i], array[min_index] = array[min_index], array[i]
         
   print(array)
