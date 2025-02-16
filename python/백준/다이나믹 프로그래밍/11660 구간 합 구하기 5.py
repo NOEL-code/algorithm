@@ -10,6 +10,7 @@ request = [list(map(int, input().split())) for _ in range(M)]
 # **누적합(dp) 배열 생성 (0부터 시작하는 padding 포함)**
 dp = [[0] * (N + 1) for _ in range(N + 1)]
 
+
 # **누적합 계산**
 for i in range(1, N + 1):
     for j in range(1, N + 1):
