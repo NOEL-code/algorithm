@@ -20,6 +20,7 @@ def bfs(N, K):
             visited[current * 2] = visited[current]  # 시간 증가 X
             queue.appendleft(current * 2)
 
+
         # 2️⃣ 걷기: X - 1
         if 0 <= current - 1 <= MAX_POSITION and visited[current - 1] == -1:
             visited[current - 1] = visited[current] + 1
