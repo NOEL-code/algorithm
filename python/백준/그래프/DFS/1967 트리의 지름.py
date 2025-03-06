@@ -16,11 +16,6 @@ for _ in range(n - 1):
 
 # 가장 먼 노드를 찾는 함수
 def dfs(node, dist):
-    global max_dist, farthest_node
-    if dist > max_dist:
-        max_dist = dist
-        farthest_node = node
-
     for next_node, cost in graph[node]:
         if visited[next_node] == -1:  # 방문하지 않은 노드
             visited[next_node] = dist + cost
