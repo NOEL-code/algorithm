@@ -2,27 +2,29 @@ import sys
 
 input = sys.stdin.readline
 
-N = int(input())
+N = int(input().strip())
 
-graph = [list(map(int, input().split())) for _ in range(N)]
+# 첫 번째 행을 초기화
+a, b, c = map(int, input().split())
+max_a, max_b, max_c = a, b, c
+min_a, min_b, min_c = a, b, c
 
-dp = [[0] * 3 for _ in range(N)]
-dp[0] = graph[0]
+for _ in range(N - 1):
+    a, b, c = map(int, input().split())
 
-for i in range(1, N):
-    dp[i][0] = max(dp[i-1][0] + graph[i][0], dp[i-1][1] + graph[i][0])
-    dp[i][1] = max(dp[i-1][0] + graph[i][1], dp[i-1][1] + graph[i][1], dp[i-1][2] + graph[i][1])
-    dp[i][2] = max(dp[i-1][1] + graph[i][2], dp[i-1][2] + graph[i][2])
+    # 최댓값 갱신
+    new_max_a = max(max_a, max_b) + a
+    new_max_b = max(max_a, max_b, max_c) + b
+    new_max_c = max(max_b, max_c) + c
 
-max = max(dp[N-1])
+    # 최솟값 갱신
+    new_min_a = min(min_a, min_b) + a
+    new_min_b = min(min_a, min_b, min_c) + b
+    new_min_c = min(min_b, min_c) + c
 
-dp = [[0] * 3 for _ in range(N)]
-dp[0] = graph[0]
-for i in range(1, N):
-    dp[i][0] = min(dp[i-1][0] + graph[i][0], dp[i-1][1] + graph[i][0])
-    dp[i][1] = min(dp[i-1][0] + graph[i][1], dp[i-1][1] + graph[i][1], dp[i-1][2] + graph[i][1])
-    dp[i][2] = min(dp[i-1][1] + graph[i][2], dp[i-1][2] + graph[i][2])
+    # 업데이트
+    max_a, max_b, max_c = new_max_a, new_max_b, new_max_c
+    min_a, min_b, min_c = new_min_a, new_min_b, new_min_c
 
-
-
-print(max, min(dp[N-1]))
+# 최종 결과 출력
+print(max(max_a, max_b, max_c), min(min_a, min_b, min_c))
