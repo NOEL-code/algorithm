@@ -1,42 +1,28 @@
-import heapq
-
-n = 4
-waiting_person_array = [2, 3, 1, 5]
-queue = []
-count = 0
-
-heapq.heappush(queue, waiting_person_array.pop(0))
-
-while queue:
-    count += 1
-    next_queue = []
-    
-    while queue:
-        time = heapq.heappop(queue)
-        time -= 1
-        if time > 0:  
-            next_queue.append(time)
-
-    for person in next_queue:
-        heapq.heappush(queue, person)
-        
-    if len(queue) < n:
-        if waiting_person_array:
-            heapq.heappush(queue, waiting_person_array.pop(0))
-    
-print(count)
-
 from collections import deque
 
 room_size = 4
-waiting_person_array = [2, 3, 1, 5]
-queue = deque()
+person = [2, 3, 1, 5]
 
-count = 0
-queue.append(waiting_person_array.pop(0))
+time_elapsed = 0
+
+queue = deque([person.pop(0)])
+for _ in range(room_size - 1):
+    queue.append(0)
+
+waiting_list = deque(person)
 
 while queue:
-    count += 1
+    time_elapsed += 1
     
-    queue.rotate(1)
+    for i in range(len(queue)):
+        queue[i] -= 1
     
+    if queue[0] <= 0:
+        queue.popleft()
+        
+    if waiting_list and len(queue) < room_size:
+        queue.append(waiting_list.popleft())
+    
+    queue.rotate(-1)
+    
+print(time_elapsed)
