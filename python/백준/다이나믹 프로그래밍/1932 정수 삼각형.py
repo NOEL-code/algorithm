@@ -8,7 +8,7 @@ graph = [list(map(int, input().rstrip().split())) for _ in range(n)]
 
 dp = [[0] * n for _ in range(n + 1)]
 
-dp[0][0] = graph[0][0] 
+dp[0][0] = graph[0][0]
 
 for i in range(1, n):
     for j in range(i + 1):
