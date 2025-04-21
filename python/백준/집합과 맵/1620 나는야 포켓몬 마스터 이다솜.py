@@ -2,50 +2,23 @@ import sys
 
 input = sys.stdin.readline
 
-n, m = map(int, input().split())
+N, M = map(int, input().split())
 
 
-never_heard= {}
-never_seen = {}
-never_heard_and_seen = [] 
-count = 0
+pocketMon_name = {}
+pocketMon_int = {}
+for i in range(1, N + 1):
+    name = input().rstrip()
+    pocketMon_name[name] = i
+    pocketMon_int[i] = name
 
-
-for i in range(n):
-  name = input().rstrip()
-  never_heard[name] = 0
-
-for i in range(m):
-  name = input().rstrip()
-  never_seen[name] = 0
-  if name in never_heard:
-    never_heard_and_seen.append(name)
-    count += 1
+for i in range(M):
+    quiry = input().rstrip()
     
-print(count)
-never_heard_and_seen.sort()
-
-for name in never_heard_and_seen:
-  print(name)
-  
-
-
-
-n, m = map(int, input().split())
-
-never_heard = set()
-
-for i in range(n):
-  never_heard.add(input())
-
-never_seen = set()
-
-for i in range(m):
-  never_seen.add(input())
-  
-never_heard_and_seen = sorted(list(never_heard & never_seen))
-
-print(len(never_heard_and_seen))
-
-for name in never_heard_and_seen:
-  print(name)
+    if quiry.isdigit():
+        print(pocketMon_int[int(quiry)])
+    else:
+        print(pocketMon_name[quiry])
+        
+        
+        
