@@ -1,5 +1,3 @@
-# 영단어 암기는 외로워
-
 import sys
 input = sys.stdin.readline
 
