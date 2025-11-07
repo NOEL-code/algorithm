@@ -38,9 +38,9 @@ for r in range(n):
         while inb(r+a, c+a):  # right 꼭짓점이 범위 내일 때까지 확장
             b = 1
             while True:
-                rr, rc = r + a,     c + a           # right
+                rr, rc = r + a, c + a           # right
                 br, bc = r + a + b, c + a - b       # bottom
-                lr, lc = r + b,     c - b           # left
+                lr, lc = r + b, c - b           # left
 
                 if not (inb(lr, lc) and inb(br, bc)):
                     break  # b를 더 키울 수 없음
