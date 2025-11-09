@@ -1,6 +1,8 @@
 import sys
+import copy
 from collections import deque
 from itertools import combinations
+
 input = sys.stdin.readline
 
 N, M = map(int, input().split())
@@ -33,7 +35,7 @@ empty = [(i, j) for i in range(N) for j in range(M) if grid[i][j] == 0]
 
 ans = 0
 for walls in combinations(empty, 3):
-    temp = [row[:] for row in grid]
+    temp = copy.deepcopy(grid)
     for x, y in walls:
         temp[x][y] = 1
     ans = max(ans, BFS(temp))

@@ -1,13 +1,13 @@
+import sys
+sys.setrecursionlimit(10**6)
+input = sys.stdin.readline  
+
 def dfs(node, dist):
     for next_node, cost in graph[node]:
         if visited[next_node] == -1:
             visited[next_node] = dist + cost
             dfs(next_node, dist + cost)
-            
-import sys
-sys.setrecursionlimit(10**6)
-input = sys.stdin.readline  
-         
+                     
 N = int(input())
 
 graph = [[] for _ in range(N+1)]
