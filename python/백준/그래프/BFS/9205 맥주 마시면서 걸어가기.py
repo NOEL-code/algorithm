@@ -1,33 +1,34 @@
-import sys
 from collections import deque
-
-input = sys.stdin.readline
 
 T = int(input())
 
 for _ in range(T):
     n = int(input())
     
-    home_x, home_y = map(int, input().split())
+    home = tuple(map(int, input().split()))
+    conv = [tuple(map(int, input().split())) for _ in range(n)]
+    festival = tuple(map(int, input().split()))
     
-    conveniences = []
+    queue = deque([home])
+    visited = [False] * n
     
-    for _ in range(n):
-        convenience_x, convenience_y = map(int, input().split())
-        conveniences.append((convenience_x, convenience_y, False))
-    
-    festival_x, festival_y = map(int, input().split())
-    
-    queue = deque([(home_x, home_y, 20)])
+    is_happy = False
     
     while queue:
-        x, y, beers = queue.popleft()
-
-        if x == festival_x and y == festival_y:
-            print("happy")
-            sys.exit(0)
-            
+        x, y = queue.popleft()
         
+        if abs(x - festival[0]) + abs(y - festival[1]) <= 1000:
+            print("happy")
+            is_happy = True
+            break
+        
+        for i in range(n):
+            if not visited[i]:
+                nx, ny = conv[i]
+                
+                if abs(x - nx) + abs(y - ny) <= 1000:
+                    visited[i] = True
+                    queue.append((nx, ny))
     
-    
-    
+    if not is_happy:
+        print("sad")
