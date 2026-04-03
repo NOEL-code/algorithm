@@ -52,7 +52,6 @@ def air_cleaner(board, top):
         board[bot][i] = board[bot][i - 1]
     board[bot][1] = 0
 
-
 top = 0
 
 for i in range(R):

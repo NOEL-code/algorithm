@@ -1,32 +1,38 @@
 import sys
 input = sys.stdin.readline
 
-N, M = map(int, input().split())
+TC = int(input())
 
-edges = []
-for _ in range(M):
-    A, B, C = map(int, input().split())
-    edges.append((A, B, C))
-
-INF = int(1e9)
-dist = [INF] * (N + 1)
-dist[1] = 0
-
-# N-1번 반복
-for i in range(N - 1):
-    for u, v, w in edges:
-        if dist[u] != INF and dist[u] + w < dist[v]:
-            dist[v] = dist[u] + w
-
-# 음수 사이클 체크
-for u, v, w in edges:
-    if dist[u] != INF and dist[u] + w < dist[v]:
-        print(-1)
-        exit()
-
-# 결과 출력
-for i in range(2, N + 1):
-    if dist[i] == INF:
-        print(-1)
-    else:
-        print(dist[i])
+for _ in range(TC):
+    N, M, W = map(int, input().split())
+    
+    edges = []
+    
+    # 도로 (양방향)
+    for _ in range(M):
+        S, E, T = map(int, input().split())
+        edges.append((S, E, T))
+        edges.append((E, S, T))
+    
+    # 웜홀 (단방향, 음수)
+    for _ in range(W):
+        S, E, T = map(int, input().split())
+        edges.append((S, E, -T))
+    
+    dist = [0] * (N + 1)  # ⭐ 핵심
+    
+    has_cycle = False
+    
+    for i in range(N):
+        for u, v, w in edges:
+            if dist[v] > dist[u] + w:
+                dist[v] = dist[u] + w
+                
+                if i == N - 1:
+                    has_cycle = True
+                    break
+        
+        if has_cycle:
+            break
+    
+    print("YES" if has_cycle else "NO")
