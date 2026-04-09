@@ -1,32 +1,18 @@
-# 일단 모든 파이어볼은 자신의 "방향"으로 "속력"만큼 이동한다.
-
-# 이 다음
-# 같은 칸의 파이어볼은 하나로 합치기
-# 하나의 파이어 볼이 4개로 나눠진다
-# 질량은 5분의 1
-# 속력은 모든 파이어볼 속력의 합/ 갯수
-# 모든 파이버볼이 홀 또는 짝 -> 0,2,4,6 아니라면 1,3,5,7
-# 질량이 0이면 소멸
-
 import sys
 
 input = sys.stdin.readline
 
-
 N, M, K = map(int, input().split())
-
 
 directions = [(-1, 0), (-1, 1), (0, 1), (1, 1), (1, 0), (1, -1), (0, -1), (-1, -1)]
 
 fireballs = []
-
 
 for i in range(M):
     # r, c, m(질량), d(directions), s(speed)
     r, c, m, s, d = map(int, input().split())
     fireballs.append((r-1, c-1, m, s, d))
 
-    
 for _ in range(K):
     grid = [[[] for _ in range(N)] for _ in range(N)]
     for r, c, m, s, d in fireballs:
