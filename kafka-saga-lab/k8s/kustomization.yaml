@@ -1,0 +1,21 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: kafka-saga-lab
+resources:
+  - namespace.yaml
+  - kafka.yaml
+  - order-service.yaml
+  - payment-service.yaml
+  - inventory-service.yaml
+configMapGenerator:
+  - name: saga-config
+    literals:
+      - KAFKA_BOOTSTRAP_SERVERS=kafka:19092
+      - JAVA_TOOL_OPTIONS=-XX:MaxRAMPercentage=60.0
+images:
+  - name: kafka-saga-lab/order-service
+    newTag: local
+  - name: kafka-saga-lab/payment-service
+    newTag: local
+  - name: kafka-saga-lab/inventory-service
+    newTag: local

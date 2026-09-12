@@ -20,6 +20,12 @@ Kafka 상태 검사 후 앱이 올라옵니다. 최초 실행은 이미지와 Ma
 
 `kafka-volume-init`은 Kafka 데이터 볼륨의 디렉터리 소유자를 실행 계정(UID/GID 1000)에 맞추고 종료합니다. 이 초기화 컨테이너의 `Exited (0)`은 정상입니다. 초기화가 성공한 뒤 Kafka가 시작되며, Kafka 자체는 기본 `appuser` 계정으로 실행됩니다. 이 단계는 새 볼륨에 로그를 기록할 때 발생할 수 있는 `AccessDeniedException`을 방지합니다.
 
+### Kubernetes로 전체 실행
+
+`k8s/`에 로컬 Kubernetes 실습용 Kustomize 설정을 제공합니다. Kafka StatefulSet, 앱별 Deployment와 Service, 데이터 보관용 PVC, 시작 대기와 상태 검사를 포함합니다. 파일 H2 DB를 사용하므로 앱별 replica는 1개이며 업데이트는 `Recreate` 방식입니다.
+
+[Kubernetes 실행 가이드](k8s/README.md)에서 kind 클러스터 생성, 이미지 빌드·로드, `kubectl apply -k k8s`, API 접속, 장애 실습 및 정리 방법을 확인하세요.
+
 ### IDE / 로컬 Java 실행
 
 Java 21을 준비합니다. 포함된 Maven Wrapper가 Maven을 내려받습니다(Windows는 `mvnw.cmd`). Docker에서는 Kafka만 실행하고, 앱은 IDE에서 각각의 `*Application` 클래스를 실행해도 됩니다.
