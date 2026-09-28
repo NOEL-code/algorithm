@@ -7,6 +7,7 @@ def find_parent(parent, x):
         parent[x] = find_parent(parent, parent[x])  # 경로 압축
     return parent[x]
 
+
 def union_parent(parent, a, b):  # ✅ 함수명 수정
     a = find_parent(parent, a)
     b = find_parent(parent, b)
@@ -15,6 +16,7 @@ def union_parent(parent, a, b):  # ✅ 함수명 수정
         parent[b] = a
     else:
         parent[a] = b
+
 
 V, E = map(int, input().split())
 
