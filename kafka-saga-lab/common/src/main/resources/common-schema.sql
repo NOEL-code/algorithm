@@ -1,3 +1,5 @@
+-- 학습: Inbox는 수신 중복, Outbox는 발행 의도를 저장한다. 공통 DDL이어도 각 서비스의 별도 DB에 생성한다.
+-- Inbox event_id PK 충돌은 업무 변경까지 rollback시킨다. Outbox identity는 로컬 발행 순서이며 전역 이벤트 순서가 아니다.
 create table if not exists inbox (
     event_id varchar(36) primary key,
     processed_at timestamp default current_timestamp not null

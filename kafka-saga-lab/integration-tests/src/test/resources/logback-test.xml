@@ -1,3 +1,5 @@
+<!-- 학습: 테스트 로그는 실패 원인을 남기되 반복적인 내부 로그를 줄인다.
+     로그 출력 성공은 트랜잭션 커밋 증거가 아니므로 테스트는 DB 결과도 확인한다. -->
 <configuration>
   <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
     <encoder><pattern>%level %logger{32} - %msg%n</pattern></encoder>

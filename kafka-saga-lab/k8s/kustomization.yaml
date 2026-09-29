@@ -1,3 +1,5 @@
+# 학습: 배포 설정의 조합과 버전 추적
+# 공통 환경 값/이미지를 한 곳에서 선언한다. Secret 대신 ConfigMap에 비밀번호를 넣는 패턴으로 확장하지 않는다.
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 namespace: kafka-saga-lab
@@ -7,10 +9,15 @@ resources:
   - order-service.yaml
   - payment-service.yaml
   - inventory-service.yaml
+  - member-service.yaml
+  - account-service.yaml
+  - frontend.yaml
 configMapGenerator:
   - name: saga-config
     literals:
       - KAFKA_BOOTSTRAP_SERVERS=kafka:19092
+      - MEMBER_SERVICE_URL=http://member-service:8083
+      - ACCOUNT_SERVICE_URL=http://account-service:8084
       - JAVA_TOOL_OPTIONS=-XX:MaxRAMPercentage=60.0
 images:
   - name: kafka-saga-lab/order-service
@@ -18,4 +25,10 @@ images:
   - name: kafka-saga-lab/payment-service
     newTag: local
   - name: kafka-saga-lab/inventory-service
+    newTag: local
+  - name: kafka-saga-lab/member-service
+    newTag: local
+  - name: kafka-saga-lab/account-service
+    newTag: local
+  - name: kafka-saga-lab/frontend
     newTag: local

@@ -1,3 +1,5 @@
+# 학습: 리소스 이름과 정리 범위의 격리
+# Namespace는 논리적 묶음이다. 네트워크 보안 경계는 별도 정책이 필요하다.
 apiVersion: v1
 kind: Namespace
 metadata:

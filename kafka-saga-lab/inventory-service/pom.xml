@@ -1,3 +1,6 @@
+<!-- 학습: inventory 모듈의 의존성과 독립 실행 산출물
+     exec classifier는 실행 JAR와 테스트가 의존하는 일반 JAR를 분리한다.
+     업무 서비스가 서로의 Java 모듈을 의존하지 않도록 HTTP/메시지 계약을 사용한다. -->
 <project xmlns="http://maven.apache.org/POM/4.0.0"><modelVersion>4.0.0</modelVersion>
  <parent><groupId>dev.study</groupId><artifactId>kafka-saga-lab</artifactId><version>1.0.0</version></parent>
  <artifactId>inventory-service</artifactId><dependencies><dependency><groupId>dev.study</groupId><artifactId>common</artifactId><version>${project.version}</version></dependency>

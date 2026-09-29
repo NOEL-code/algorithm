@@ -1,0 +1,87 @@
+# 학습: 서비스 주소, 실행 인스턴스, 데이터 수명의 분리
+# Service는 안정적 주소, Deployment는 교체 가능한 프로세스, PVC는 DB 저장 공간이다.
+# 파일 H2를 위해 replicas=1/Recreate를 사용한다. TCP probe가 Saga 완료나 DB 정상까지 증명하지는 않는다.
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: member-service-data
+spec:
+  accessModes: [ReadWriteOnce]
+  resources:
+    requests:
+      storage: 1Gi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: member-service
+spec:
+  selector:
+    app: member-service
+  ports:
+    - name: http
+      port: 8083
+      targetPort: http
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: member-service
+spec:
+  # 파일 H2 DB는 서비스당 인스턴스 1개를 전제로 한다.
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: member-service
+  template:
+    metadata:
+      labels:
+        app: member-service
+    spec:
+      enableServiceLinks: false
+      automountServiceAccountToken: false
+      terminationGracePeriodSeconds: 60
+      containers:
+        - name: app
+          image: kafka-saga-lab/member-service:local
+          imagePullPolicy: IfNotPresent
+          workingDir: /app
+          ports:
+            - name: http
+              containerPort: 8083
+          envFrom:
+            - configMapRef:
+                name: saga-config
+          resources:
+            requests:
+              cpu: 100m
+              memory: 256Mi
+            limits:
+              cpu: "1"
+              memory: 768Mi
+          # TCP 검사는 HTTP 포트 기동 여부를 확인한다. Saga 완료는 API로 확인한다.
+          startupProbe:
+            tcpSocket:
+              port: http
+            periodSeconds: 5
+            failureThreshold: 60
+          readinessProbe:
+            tcpSocket:
+              port: http
+            periodSeconds: 5
+            timeoutSeconds: 2
+          livenessProbe:
+            tcpSocket:
+              port: http
+            periodSeconds: 10
+            timeoutSeconds: 2
+            failureThreshold: 6
+          volumeMounts:
+            - name: data
+              mountPath: /app/data
+      volumes:
+        - name: data
+          persistentVolumeClaim:
+            claimName: member-service-data

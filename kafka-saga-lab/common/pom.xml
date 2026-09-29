@@ -1,5 +1,8 @@
+<!-- 학습: 공통 메시지/전달/인증 클라이언트 기술을 모은다. 공용 업무 DB나 공유 엔티티 모듈이 아니다.
+     클라이언트 코드도 공유 배포 결합을 만든다. 서비스별 계약 버전이 필요해지면 분리할 수 있다. -->
 <project xmlns="http://maven.apache.org/POM/4.0.0"><modelVersion>4.0.0</modelVersion>
  <parent><groupId>dev.study</groupId><artifactId>kafka-saga-lab</artifactId><version>1.0.0</version></parent>
  <artifactId>common</artifactId><dependencies><dependency><groupId>org.springframework.boot</groupId><artifactId>spring-boot-starter-jdbc</artifactId></dependency>
     <dependency><groupId>org.springframework.kafka</groupId><artifactId>spring-kafka</artifactId></dependency>
-    <dependency><groupId>com.fasterxml.jackson.core</groupId><artifactId>jackson-databind</artifactId></dependency></dependencies></project>
+    <dependency><groupId>com.fasterxml.jackson.core</groupId><artifactId>jackson-databind</artifactId></dependency>
+    <dependency><groupId>org.springframework</groupId><artifactId>spring-web</artifactId></dependency></dependencies></project>

@@ -1,3 +1,5 @@
+# 학습: 메시지 로그의 영속성과 로컬 가용성 한계
+# StatefulSet/PVC가 재시작 후 로그를 유지한다. 단일 브로커이므로 복제 기반 장애 내성은 실습하지 않는다.
 apiVersion: v1
 kind: Service
 metadata:

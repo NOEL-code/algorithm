@@ -1,3 +1,6 @@
+# 학습: inventory 서비스 실행 경계
+# 파일 H2는 서비스당 단일 인스턴스용이다. replica만 늘리면 서로 다른 DB로 업무 상태가 갈라질 수 있다.
+# 환경 변수로 주소를 주입해 로컬/Compose/Kubernetes에서 같은 코드를 실행한다.
 server:
   port: 8082
 spring:
@@ -15,19 +18,26 @@ spring:
     bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS:localhost:9092}
     consumer:
       group-id: inventory-service
+      # 커밋한 offset이 없을 때만 earliest를 적용한다. 재시작마다 처음부터 읽는 설정이 아니다.
       auto-offset-reset: earliest
+      # 업무 DB 커밋보다 먼저 주기적으로 offset이 넘어가는 것을 피한다.
       enable-auto-commit: false
       key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
       value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
     listener:
+      # Handler의 DB 트랜잭션 커밋 → Listener 정상 반환 후 record offset을 진행한다.
       ack-mode: record
+      # 단일 소비 스레드 실습 설정. 파티션이 3개여도 이 인스턴스가 동시에 3건 처리하지 않는다.
       concurrency: 1
     producer:
       key-serializer: org.apache.kafka.common.serialization.StringSerializer
       value-serializer: org.apache.kafka.common.serialization.StringSerializer
+      # 현재 ISR의 ACK를 기다린다. 복제 계수 1인 이 실습은 브로커 디스크 손실에 안전하지 않다.
       acks: all
       properties:
+        # Producer 재전송 중복을 줄인다. Outbox 재발행/외부 DB 효과의 exactly-once는 별도 문제다.
         enable.idempotence: true
+        # 무기한 전송 대기를 제한한다. 타임아웃은 미전송 확정이 아니므로 소비 멱등성이 여전히 필요하다.
         delivery.timeout.ms: 10000
         request.timeout.ms: 5000
         max.block.ms: 5000

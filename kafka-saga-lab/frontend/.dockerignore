@@ -1,3 +1,5 @@
+# 학습: 호스트 의존성과 테스트 산출물의 이미지 혼입 방지
+# 이미지 안에서 npm ci/build를 실행하므로 호스트 node_modules/dist를 복사하지 않는다.
 node_modules
 dist
 test-results

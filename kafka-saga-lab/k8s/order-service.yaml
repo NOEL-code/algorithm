@@ -1,3 +1,6 @@
+# 학습: 서비스 주소, 실행 인스턴스, 데이터 수명의 분리
+# Service는 안정적 주소, Deployment는 교체 가능한 프로세스, PVC는 DB 저장 공간이다.
+# 파일 H2를 위해 replicas=1/Recreate를 사용한다. TCP probe가 Saga 완료나 DB 정상까지 증명하지는 않는다.
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:

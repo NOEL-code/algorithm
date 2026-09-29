@@ -1,6 +1,6 @@
 # Kubernetes에서 Saga 실습하기
 
-Compose와 같은 Kafka 1대 + Spring 앱 3개를 `kafka-saga-lab` 네임스페이스에 배포합니다. 로컬 학습용이며, 기존 Compose 설정과 Java 코드를 그대로 사용합니다. 두 환경의 볼륨은 별개이므로 데이터가 자동으로 이전되지 않습니다.
+Compose와 같은 Kafka 1대 + Spring 앱 5개 + React 프론트엔드를 `kafka-saga-lab` 네임스페이스에 배포합니다. 로컬 학습용이며, 기존 Compose 설정과 Java 코드를 그대로 사용합니다. 두 환경의 볼륨은 별개이므로 데이터가 자동으로 이전되지 않습니다.
 
 ## 구성
 
@@ -13,7 +13,7 @@ Compose와 같은 Kafka 1대 + Spring 앱 3개를 `kafka-saga-lab` 네임스페�
 
 Kafka는 클러스터 내부 주소 `kafka:19092`를 광고합니다. `kafka-0.kafka-headless`는 컨트롤러의 고정 주소입니다. 새 Kafka 볼륨의 소유권은 init container가 UID/GID 1000으로 맞추며 브로커는 해당 일반 계정으로 실행합니다.
 
-앱은 init container에서 Kafka의 토픽 조회가 성공할 때까지 기다립니다. 기동 이후의 Kafka 장애는 기존 Outbox 재시도로 복구합니다. 앱의 startup/readiness/liveness probe는 TCP 포트를 검사하므로 DB 상태나 Saga 처리 완료까지 보장하지 않습니다. 배포 후 아래 API 실습으로 메시지 흐름을 확인하세요. Kafka readiness는 실제 토픽 조회를 수행합니다. [Kubernetes probe 동작](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/)
+회원 서비스를 제외한 앱은 init container에서 Kafka의 토픽 조회가 성공할 때까지 기다립니다. 기동 이후의 Kafka 장애는 기존 Outbox 재시도로 복구합니다. 앱의 startup/readiness/liveness probe는 TCP 포트를 검사하므로 DB 상태나 Saga 처리 완료까지 보장하지 않습니다. 배포 후 아래 API 실습으로 메시지 흐름을 확인하세요. Kafka readiness는 실제 토픽 조회를 수행합니다. [Kubernetes probe 동작](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/)
 
 **앱의 replicas는 1로 유지하세요.** 파일 H2 DB 공유와 Outbox 동시 실행을 피하기 위해 `Recreate`를 사용합니다. 업데이트 중에는 잠시 서비스가 중단됩니다. Kafka도 단일 브로커 설정이므로 replicas만 늘려 확장할 수 없습니다.
 
@@ -39,18 +39,22 @@ kubectl get storageclass
 기존 Dockerfile의 `SERVICE` 인자를 사용합니다. Java와 Maven은 빌드 이미지에 포함되어 있어 호스트에 설치할 필요가 없습니다.
 
 ```bash
-for service in order-service payment-service inventory-service; do
+for service in order-service payment-service inventory-service member-service account-service; do
   docker build --build-arg SERVICE="$service" \
     -t "kafka-saga-lab/$service:local" . || break
 done
+docker build -t kafka-saga-lab/frontend:local frontend
 
 kind load docker-image --name kafka-saga-lab \
   kafka-saga-lab/order-service:local \
   kafka-saga-lab/payment-service:local \
-  kafka-saga-lab/inventory-service:local
+  kafka-saga-lab/inventory-service:local \
+  kafka-saga-lab/member-service:local \
+  kafka-saga-lab/account-service:local \
+  kafka-saga-lab/frontend:local
 ```
 
-세 이미지 빌드가 모두 성공한 뒤 로드하세요. `imagePullPolicy: IfNotPresent`를 사용하므로 kind 노드에 로드한 이미지를 사용할 수 있습니다. Kafka 이미지는 노드에서 내려받습니다.
+여섯 이미지 빌드가 모두 성공한 뒤 로드하세요. `imagePullPolicy: IfNotPresent`를 사용하므로 kind 노드에 로드한 이미지를 사용할 수 있습니다. Kafka 이미지는 노드에서 내려받습니다.
 
 다른 클러스터에서는 해당 노드가 이미지를 가져올 수 있도록 레지스트리에 push하고, `kustomization.yaml`의 `images`에 `newName`과 `newTag`를 설정하세요. 비공개 레지스트리는 별도 `imagePullSecrets`가 필요합니다.
 
@@ -72,12 +76,27 @@ kubectl -n kafka-saga-lab rollout status statefulset/kafka --timeout=300s
 kubectl -n kafka-saga-lab rollout status deployment/order-service --timeout=300s
 kubectl -n kafka-saga-lab rollout status deployment/payment-service --timeout=300s
 kubectl -n kafka-saga-lab rollout status deployment/inventory-service --timeout=300s
+kubectl -n kafka-saga-lab rollout status deployment/member-service --timeout=300s
+kubectl -n kafka-saga-lab rollout status deployment/account-service --timeout=300s
+kubectl -n kafka-saga-lab rollout status deployment/frontend --timeout=300s
 kubectl -n kafka-saga-lab get pods,svc,pvc
 ```
 
-네임스페이스를 먼저 생성하는 것은 최초 server dry-run에서 네임스페이스 미존재 오류를 피하기 위해서입니다. 앱의 토픽 생성 코드는 기존대로 실행됩니다. 정상 상태는 Pod 4개가 `Running`/`1/1`, PVC 4개가 `Bound`입니다. 최초 이미지 다운로드가 오래 걸려 rollout 명령이 시간 초과되면 아래 문제 해결 절차로 확인하세요.
+네임스페이스를 먼저 생성하는 것은 최초 server dry-run에서 네임스페이스 미존재 오류를 피하기 위해서입니다. 앱의 토픽 생성 코드는 기존대로 실행됩니다. 정상 상태는 Pod 7개가 `Running`/`1/1`, PVC 6개가 `Bound`입니다. 최초 이미지 다운로드가 오래 걸려 rollout 명령이 시간 초과되면 아래 문제 해결 절차로 확인하세요.
 
-## 4. API와 Kafka 확인
+## 4. 프론트엔드와 API 확인
+
+```bash
+kubectl -n kafka-saga-lab port-forward service/frontend 5173:80
+```
+
+`http://localhost:5173`에서 회원가입 → 계좌 개설·입금 → 주문을 실행합니다. Nginx는 Pod의 DNS 설정으로 각 서비스 주소를 조회합니다. UI는 별도 백엔드 port-forward 없이 동작합니다. 회원/계좌 HTTP API를 직접 실행할 때는 아래 포트도 별도 터미널에서 전달하세요.
+
+```bash
+kubectl -n kafka-saga-lab port-forward service/member-service 8083:8083
+kubectl -n kafka-saga-lab port-forward service/account-service 8084:8084
+```
+
 
 Compose나 로컬 Java 앱이 8080~8082를 사용하고 있다면 먼저 종료하세요. 터미널 3개에서 각각 실행하고 유지합니다.
 
