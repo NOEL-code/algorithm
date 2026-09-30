@@ -155,3 +155,31 @@
 | [docs/interview.md](interview.md), [학습 경로](learning-guide.md), 이 파일 | 답변 연습, 실험 순서, 파일별 찾아보기로 목적을 나눴다. 소스 주석을 대체하지 않는다. |
 
 `target/`, `dist/`, `node_modules/`, 테스트 스크린샷/로그/리포트, 파일 DB는 생성 산출물입니다. 주석 대상이 아니며 소스/테스트로 다시 생성합니다. 개인 IDE·에이전트 설정 및 `.github/modernize/` 업그레이드 도구 생성 파일은 프로젝트 업무 코드가 아니므로 수정하지 않습니다.
+
+## 디자인 패턴 실습
+
+[실습 안내](../design-patterns/README.md): GoF 23개 예제와 변경 과제.
+
+- [ChainOfResponsibilityDemo.java](../design-patterns/src/dev/study/patterns/behavioral/ChainOfResponsibilityDemo.java): 요청을 처리기 사슬로 전달하고 조건에 따라 중단한다.
+- [CommandDemo.java](../design-patterns/src/dev/study/patterns/behavioral/CommandDemo.java): 요청을 객체로 만들어 실행과 취소를 호출자에서 분리한다.
+- [InterpreterDemo.java](../design-patterns/src/dev/study/patterns/behavioral/InterpreterDemo.java): 작은 언어의 문법을 표현식 객체로 구성하고 해석한다.
+- [IteratorDemo.java](../design-patterns/src/dev/study/patterns/behavioral/IteratorDemo.java): 내부 저장 구조를 노출하지 않고 순차 접근을 제공한다.
+- [MediatorDemo.java](../design-patterns/src/dev/study/patterns/behavioral/MediatorDemo.java): 객체 사이의 직접 참조를 중재자로 모아 상호작용을 조정한다.
+- [MementoDemo.java](../design-patterns/src/dev/study/patterns/behavioral/MementoDemo.java): 객체 내부 상태를 외부에 공개하지 않고 저장하고 복원한다.
+- [ObserverDemo.java](../design-patterns/src/dev/study/patterns/behavioral/ObserverDemo.java): 발행자가 구독자의 구체 타입을 몰라도 변경을 통지한다.
+- [StateDemo.java](../design-patterns/src/dev/study/patterns/behavioral/StateDemo.java): 현재 상태 객체가 동작과 다음 상태를 결정한다.
+- [StrategyDemo.java](../design-patterns/src/dev/study/patterns/behavioral/StrategyDemo.java): 알고리즘을 공통 인터페이스 뒤에 두고 호출자가 교체한다.
+- [TemplateMethodDemo.java](../design-patterns/src/dev/study/patterns/behavioral/TemplateMethodDemo.java): 상위 클래스가 처리 순서를 고정하고 일부 단계를 하위 클래스에 맡긴다.
+- [VisitorDemo.java](../design-patterns/src/dev/study/patterns/behavioral/VisitorDemo.java): 요소 구조와 작업을 분리하고 이중 디스패치로 타입별 작업을 선택한다.
+- [AbstractFactoryDemo.java](../design-patterns/src/dev/study/patterns/creational/AbstractFactoryDemo.java): 서로 어울리는 여러 제품을 한 팩토리에서 생성한다.
+- [BuilderDemo.java](../design-patterns/src/dev/study/patterns/creational/BuilderDemo.java): 필수 값과 선택 값을 나누고 완성 시점에 유효한 객체를 만든다.
+- [FactoryMethodDemo.java](../design-patterns/src/dev/study/patterns/creational/FactoryMethodDemo.java): 상위 클래스의 처리 흐름은 유지하고 하위 클래스가 생성할 제품을 결정한다.
+- [PrototypeDemo.java](../design-patterns/src/dev/study/patterns/creational/PrototypeDemo.java): 기존 객체를 복제하되 가변 필드는 독립적으로 복사한다.
+- [SingletonDemo.java](../design-patterns/src/dev/study/patterns/creational/SingletonDemo.java): private 생성자로 외부 생성을 막고 정적 인스턴스 하나를 공유한다.
+- [AdapterDemo.java](../design-patterns/src/dev/study/patterns/structural/AdapterDemo.java): 기존 API를 클라이언트가 원하는 인터페이스로 변환한다.
+- [BridgeDemo.java](../design-patterns/src/dev/study/patterns/structural/BridgeDemo.java): 추상 기능과 구현 수단을 분리해 두 축을 독립적으로 확장한다.
+- [CompositeDemo.java](../design-patterns/src/dev/study/patterns/structural/CompositeDemo.java): 단일 항목과 항목 묶음을 같은 인터페이스로 다룬다.
+- [DecoratorDemo.java](../design-patterns/src/dev/study/patterns/structural/DecoratorDemo.java): 같은 인터페이스의 객체를 감싸 기능을 누적한다.
+- [FacadeDemo.java](../design-patterns/src/dev/study/patterns/structural/FacadeDemo.java): 여러 하위 시스템을 사용하는 순서를 간단한 진입점으로 제공한다.
+- [FlyweightDemo.java](../design-patterns/src/dev/study/patterns/structural/FlyweightDemo.java): 공통의 불변 상태를 공유하고 개별 상태는 외부에서 전달한다.
+- [ProxyDemo.java](../design-patterns/src/dev/study/patterns/structural/ProxyDemo.java): 동일 인터페이스의 대리 객체가 실제 객체 접근과 생성 시점을 제어한다.

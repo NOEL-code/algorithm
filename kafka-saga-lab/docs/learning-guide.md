@@ -126,3 +126,7 @@ npm test
 ## 근거 문서
 
 주석은 현재 코드가 실제로 보장하는 범위를 기준으로 작성했습니다. 외부 개념을 더 확인할 때는 [Spring 트랜잭션 프록시/self-invocation](https://docs.spring.io/spring/reference/6.2/data-access/transaction/declarative/annotations.html), [OWASP 비밀번호 저장](https://cheatsheetseries.owasp.org/cheatsheets/Password_Storage_Cheat_Sheet.html), [Kafka 전달 의미](https://kafka.apache.org/41/design/design/)를 참고하세요. 보안 비용 인자와 운영 환경 선택은 고정된 정답이 아니라 요구사항·성능 측정과 함께 결정합니다.
+
+## Java 디자인 패턴 실습
+
+[GoF 23개 디자인 패턴 실습](../design-patterns/README.md)에서 생성 5개·구조 7개·행위 11개를 살펴볼 수 있습니다. 표준 Java로 작성된 각 파일에는 패턴 구현, 간단한 `main()` 사용 예시, 변경 과제가 있습니다.
