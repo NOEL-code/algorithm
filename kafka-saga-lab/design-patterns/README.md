@@ -22,11 +22,11 @@ Java 21 JDK만 필요하며 Spring, Maven, Kafka, DB 없이 실행합니다.
 
 | 예제 | 핵심 | 변경 과제 |
 |---|---|---|
-| [Singleton](src/dev/study/patterns/creational/SingletonDemo.java) | private 생성자로 외부 생성을 막고 정적 인스턴스 하나를 공유한다. | 가변 설정을 추가하면 병렬 실행에서 어떤 문제가 생기는지 설명하세요. |
-| [FactoryMethod](src/dev/study/patterns/creational/FactoryMethodDemo.java) | 상위 클래스의 처리 흐름은 유지하고 하위 클래스가 생성할 제품을 결정한다. | SmsNotification을 추가하고 상위 클래스 변경 없이 실행하세요. |
-| [AbstractFactory](src/dev/study/patterns/creational/AbstractFactoryDemo.java) | 서로 어울리는 여러 제품을 한 팩토리에서 생성한다. | Checkbox 제품을 추가할 때 수정해야 할 클래스를 찾아보세요. |
-| [Builder](src/dev/study/patterns/creational/BuilderDemo.java) | 필수 값과 선택 값을 나누고 완성 시점에 유효한 객체를 만든다. | 배송 메모 옵션과 수량 검증 실패 시나리오를 추가하세요. |
-| [Prototype](src/dev/study/patterns/creational/PrototypeDemo.java) | 기존 객체를 복제하되 가변 필드는 독립적으로 복사한다. | List 안의 원소도 가변 객체라면 복사 방법이 어떻게 달라지는지 실험하세요. |
+| [Singleton](src/dev/study/patterns/creational/SingletonDemo.java) | 설정 관리자를 private 생성자와 정적 인스턴스로 하나만 생성한다. | getInstance()를 여러 곳에서 호출해도 같은 설정 객체를 사용하는 흐름을 따라가세요. |
+| [FactoryMethod](src/dev/study/patterns/creational/FactoryMethodDemo.java) | 물류 서비스의 배송 흐름은 유지하고 트럭과 배의 생성만 하위 클래스에 맡긴다. | Airplane과 AirLogistics를 추가하고 기존 물류 클래스의 변경 여부를 살펴보세요. |
+| [AbstractFactory](src/dev/study/patterns/creational/AbstractFactoryDemo.java) | Windows 또는 Mac 팩토리 하나로 같은 운영체제의 버튼과 체크박스를 생성한다. | LinuxFactory를 추가한 뒤 Application 수정 없이 UI 제품군을 교체하세요. |
+| [Builder](src/dev/study/patterns/creational/BuilderDemo.java) | 컴퓨터의 필수 부품과 선택 부품을 구분하고 build()로 완성된 객체를 만든다. | 선택 부품을 생략한 기본 컴퓨터와 부품을 지정한 컴퓨터를 구성하세요. |
+| [Prototype](src/dev/study/patterns/creational/PrototypeDemo.java) | 기존 도형의 상태를 복사해 같은 종류의 새 도형을 만든다. | Rectangle을 추가하고 Shape 타입으로 copy()를 호출해 보세요. |
 
 ## 구조 패턴 — 객체를 어떻게 조합할까?
 

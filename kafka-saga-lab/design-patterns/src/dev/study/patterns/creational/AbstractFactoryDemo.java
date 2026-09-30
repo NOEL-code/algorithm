@@ -1,54 +1,97 @@
 package dev.study.patterns.creational;
 
 /**
- * 학습: 서로 어울리는 여러 제품을 한 팩토리에서 생성한다.
- * 실습: Checkbox 제품을 추가할 때 수정해야 할 클래스를 찾아보세요.
+ * 학습: Windows 또는 Mac 팩토리 하나로 같은 운영체제의 버튼과 체크박스를 생성한다.
+ * 실습: LinuxFactory를 추가한 뒤 Application 수정 없이 UI 제품군을 교체하세요.
  * 중첩 타입은 한 파일에서 참여 객체의 관계를 읽기 위한 구성이다.
  */
 public class AbstractFactoryDemo {
 
-    interface Button { String render(); }
-    interface Menu { String render(); }
-    interface ThemeFactory { Button button(); Menu menu(); }
-    static class LightButton implements Button {
+    interface Button {
+        void render();
+    }
+
+    interface Checkbox {
+        void render();
+    }
+
+    interface GUIFactory {
+        Button createButton();
+        Checkbox createCheckbox();
+    }
+
+    static class WindowsButton implements Button {
         @Override
-        public String render() {
-            return "light button";
+        public void render() {
+            System.out.println("Windows 버튼");
         }
     }
-    static class LightMenu implements Menu {
+
+    static class WindowsCheckbox implements Checkbox {
         @Override
-        public String render() {
-            return "light menu";
+        public void render() {
+            System.out.println("Windows 체크박스");
         }
     }
-    static class DarkButton implements Button {
+
+    static class MacButton implements Button {
         @Override
-        public String render() {
-            return "dark button";
+        public void render() {
+            System.out.println("Mac 버튼");
         }
     }
-    static class DarkMenu implements Menu {
+
+    static class MacCheckbox implements Checkbox {
         @Override
-        public String render() {
-            return "dark menu";
+        public void render() {
+            System.out.println("Mac 체크박스");
         }
     }
-    static class LightTheme implements ThemeFactory {
-        public Button button() { return new LightButton(); }
-        public Menu menu() { return new LightMenu(); }
+
+    static class WindowsFactory implements GUIFactory {
+        @Override
+        public Button createButton() {
+            return new WindowsButton();
+        }
+
+        @Override
+        public Checkbox createCheckbox() {
+            return new WindowsCheckbox();
+        }
     }
-    static class DarkTheme implements ThemeFactory {
-        public Button button() { return new DarkButton(); }
-        public Menu menu() { return new DarkMenu(); }
+
+    static class MacFactory implements GUIFactory {
+        @Override
+        public Button createButton() {
+            return new MacButton();
+        }
+
+        @Override
+        public Checkbox createCheckbox() {
+            return new MacCheckbox();
+        }
     }
-    static String screen(ThemeFactory factory) {
-        return factory.button().render() + ", " + factory.menu().render();
+
+    static class Application {
+        private final Button button;
+        private final Checkbox checkbox;
+
+        Application(GUIFactory factory) {
+            button = factory.createButton();
+            checkbox = factory.createCheckbox();
+        }
+
+        public void render() {
+            button.render();
+            checkbox.render();
+        }
     }
+
     public static void main(String[] args) {
-        ThemeFactory theme = new LightTheme();
-        System.out.println(screen(theme));
-        theme = new DarkTheme();
-        System.out.println(screen(theme));
+        Application windowsApp = new Application(new WindowsFactory());
+        windowsApp.render();
+
+        Application macApp = new Application(new MacFactory());
+        macApp.render();
     }
 }

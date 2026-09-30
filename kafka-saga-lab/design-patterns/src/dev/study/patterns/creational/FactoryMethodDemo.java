@@ -1,39 +1,59 @@
 package dev.study.patterns.creational;
 
 /**
- * 학습: 상위 클래스의 처리 흐름은 유지하고 하위 클래스가 생성할 제품을 결정한다.
- * 실습: SmsNotification을 추가하고 상위 클래스 변경 없이 실행하세요.
+ * 학습: 물류 서비스의 배송 흐름은 유지하고 트럭과 배의 생성만 하위 클래스에 맡긴다.
+ * 실습: Airplane과 AirLogistics를 추가하고 기존 물류 클래스의 변경 여부를 살펴보세요.
  * 중첩 타입은 한 파일에서 참여 객체의 관계를 읽기 위한 구성이다.
  */
 public class FactoryMethodDemo {
 
-    interface Sender { String send(String message); }
-    static class EmailSender implements Sender {
+    interface Transport {
+        void deliver();
+    }
+
+    static class Truck implements Transport {
         @Override
-        public String send(String message) {
-            return "email:" + message;
+        public void deliver() {
+            System.out.println("트럭으로 도로를 따라 배송합니다.");
         }
     }
-    static class PushSender implements Sender {
+
+    static class Ship implements Transport {
         @Override
-        public String send(String message) {
-            return "push:" + message;
+        public void deliver() {
+            System.out.println("배로 바다를 건너 배송합니다.");
         }
     }
-    static abstract class Notification {
-        abstract Sender createSender(); // Factory Method
-        final String notifyUser(String message) { return createSender().send(message); }
+
+    static abstract class Logistics {
+        // 하위 클래스가 어떤 운송 수단을 생성할지 결정한다.
+        protected abstract Transport createTransport();
+
+        public void planDelivery() {
+            Transport transport = createTransport();
+            transport.deliver();
+        }
     }
-    static class EmailNotification extends Notification {
-        Sender createSender() { return new EmailSender(); }
+
+    static class RoadLogistics extends Logistics {
+        @Override
+        protected Transport createTransport() {
+            return new Truck();
+        }
     }
-    static class PushNotification extends Notification {
-        Sender createSender() { return new PushSender(); }
+
+    static class SeaLogistics extends Logistics {
+        @Override
+        protected Transport createTransport() {
+            return new Ship();
+        }
     }
+
     public static void main(String[] args) {
-        Notification notification = new EmailNotification();
-        notification.notifyUser("주문 완료");
-        notification = new PushNotification();
-        notification.notifyUser("배송 시작");
+        Logistics logistics = new RoadLogistics();
+        logistics.planDelivery();
+
+        logistics = new SeaLogistics();
+        logistics.planDelivery();
     }
 }
